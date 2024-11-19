@@ -25834,7 +25834,7 @@ async function run() {
             recursive: true,
             force: true
         });
-        (0, fs_1.rmSync)(inputs.task_definition_file);
+        // rmSync(inputs.task_definition_file)
         core.debug(`Output: ${toWriteJson}`);
     }
     catch (error) {
