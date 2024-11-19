@@ -13,10 +13,10 @@ inputs:
     required: true
   image:
     description: 'Image tag to write to json file'
-    required: false
+    required: true
   target_container:
     description: 'Target container name to modify'
-    required: false
+    required: true
 
 runs:
   using: node20
