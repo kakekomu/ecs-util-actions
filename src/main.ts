@@ -19,7 +19,7 @@ export async function run(): Promise<void> {
       recursive: true,
       force: true
     })
-    rmSync(inputs.task_definition_file)
+    // rmSync(inputs.task_definition_file)
     core.debug(`Output: ${toWriteJson}`)
   } catch (error) {
     // Fail the workflow run if an error occurs
