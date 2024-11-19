@@ -25895,12 +25895,36 @@ exports.parseArgs = parseArgs;
 /***/ }),
 
 /***/ 3905:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskRunner = void 0;
+const core = __importStar(__nccwpck_require__(2186));
 const fs_1 = __nccwpck_require__(7147);
 const dotenv_1 = __nccwpck_require__(2437);
 class TaskRunner {
@@ -25908,23 +25932,29 @@ class TaskRunner {
     taskDefinition = null;
     constructor(inputs) {
         this.inputs = inputs;
+        core.debug(`Inputs: ${JSON.stringify(inputs)}`);
     }
     run() {
         this.loadTaskDefinition();
-        this.rewriteTaskDefinition();
+        return this.rewriteTaskDefinition();
     }
     loadTaskDefinition() {
+        core.debug(`Loading task definition from ${this.inputs.task_definition_file}`);
         const filecontent = (0, fs_1.readFileSync)(this.inputs.task_definition_file, 'utf8');
         this.taskDefinition = JSON.parse(filecontent);
+        core.debug(`Task definition: ${JSON.stringify(this.taskDefinition)}`);
     }
     getEnvObject() {
+        core.debug(`Loading env file from ${this.inputs.env_file}`);
         return (0, dotenv_1.parse)((0, fs_1.readFileSync)(this.inputs.env_file, 'utf8'));
     }
     rewriteTaskDefinition() {
         if (this.isTaskDefinitionLoaded(this.taskDefinition)) {
+            core.debug(`Rewriting task definition`);
             const env = this.getEnvObject();
             const targetContainer = this.taskDefinition.containerDefinitions.find(container => container.name === this.inputs.target_container);
             if (targetContainer) {
+                core.debug(`Rewriting target container ${this.inputs.target_container}`);
                 targetContainer.environment = Object.entries(env).map(([key, value]) => ({ name: key, value }));
                 targetContainer.image = this.inputs.image;
             }
