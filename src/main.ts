@@ -15,7 +15,10 @@ export async function run(): Promise<void> {
     const rewrittenTaskDefinition = taskRunner.run()
     const toWriteJson = JSON.stringify(rewrittenTaskDefinition, null, 4)
     writeFileSync(inputs.task_definition_file, toWriteJson)
-    await io.cp(inputs.task_definition_file, inputs.env_file, { recursive: true, force: true })
+    await io.cp(inputs.task_definition_file, inputs.env_file, {
+      recursive: true,
+      force: true
+    })
     rmSync(inputs.task_definition_file)
     core.debug(`Output: ${toWriteJson}`)
   } catch (error) {

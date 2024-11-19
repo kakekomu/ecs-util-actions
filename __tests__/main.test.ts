@@ -61,7 +61,9 @@ describe('action', () => {
   })
 
   it('writes the task definition to a file', async () => {
-    const writeFileSyncMock = jest.spyOn(fs, 'writeFileSync').mockImplementation()
+    const writeFileSyncMock = jest
+      .spyOn(fs, 'writeFileSync')
+      .mockImplementation()
     await main.run()
     expect(writeFileSyncMock).toHaveBeenCalledWith(
       'task.json',
