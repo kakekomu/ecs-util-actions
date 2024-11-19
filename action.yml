@@ -1,0 +1,23 @@
+name: 'Write Env'
+description:
+  'Write env file from provided json. Can be used with github secrets or
+  variables'
+author: 'yoonsoo.kim@kakekomu.com'
+
+inputs:
+  env_file:
+    description: 'Output env file path'
+    required: true
+  task_definition_file:
+    description: 'Task definition file path'
+    required: true
+  image:
+    description: 'Image tag to write to json file'
+    required: false
+  target_container:
+    description: 'Target container name to modify'
+    required: false
+
+runs:
+  using: node20
+  main: dist/index.js
